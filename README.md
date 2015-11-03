@@ -30,8 +30,9 @@ Just add the following to your `project.clj`:
 When you configure secretary 2 you create a url dispatcher like this:
 
 ```clojure
-(ns your.ns
-  (:require [secretary.core :as secretary :refer-macros [defroute]]))
+(ns your-app-ns
+  (:require [secretary.core :as secretary :refer-macros [defroute]]
+            [accountant.core :as accountant]))
 
 (defroute secretary-defroute-home "/" {:as params}
   ...)
@@ -58,9 +59,6 @@ Also, to let accountant check for the handled routes, you need a list of all the
 At this point all you have to do to get Accountant working is the following:
 
 ```clojure
-(ns your-app-ns
-  (:require [accountant.core :as accountant]))
-
 (accountant/configure-navigation! secretary-dispatcher routes-stack)
 ```
 
