@@ -1,7 +1,7 @@
 # Accountant
 
 Accountant is a ClojureScript library to make navigation in single-page
-applications simple. It expects you to use [Secretary](https://github.com/gf3/secretary) to define your routes.
+applications simple. It expects you to use [Secretary 2](https://github.com/gf3/secretary/tree/v2.0.0) to define your routes.
 
 By default, clicking a link in a ClojureScript application that isn't a simple
 URL fragment will trigger a full page reload. This defeats the purpose of using
@@ -22,18 +22,36 @@ browsers will be left behind.
 Just add the following to your `project.clj`:
 
 ```clojure
-:dependencies [venantius/accountant "0.1.4"]
+:dependencies [venantius/accountant "0.2-SNAPSHOT"]
 ```
 
 ## Usage
 
-All you have to do to get Accountant working is the following:
+When you configure secretary 2 you create a url dispatcher like this:
+
+```clojure
+(def secretary-dispatcher
+  (secretary/uri-dispatcher [secretary-defroute-home secretary-defroute-user]))
+```
+
+this is used by accountant to let secretary handle the new window location.
+
+Also, to let accountant check for the handled routes, you need a list of all the paths:
+
+```clojure
+(def routes-stack [
+  "/"       ; route used in secretary-defroute-home
+  "/user"   ; route used in secretary-defroute-user
+])
+```
+
+At this point all you have to do to get Accountant working is the following:
 
 ```clojure
 (ns your-app-ns
   (:require [accountant.core :as accountant]))
 
-(accountant/configure-navigation!)
+(accountant/configure-navigation! secretary-dispatcher routes-stack)
 ```
 
 ...and you're good to go!
@@ -47,7 +65,7 @@ You can also use Accountant to set the current path in the browser, e.g.
 If you want to dispatch the current path, just add the following:
 
 ```clojure
-(dispatch-current!)
+(dispatch-current! secretary-dispatcher)
 ```
 
 ## License
