@@ -30,8 +30,18 @@ Just add the following to your `project.clj`:
 When you configure secretary 2 you create a url dispatcher like this:
 
 ```clojure
+(ns your.ns
+  (:require [secretary.core :as secretary :refer-macros [defroute]]))
+
+(defroute secretary-defroute-home "/" {:as params}
+  ...)
+
+(defroute secretary-defroute-user "/user" {:as params}
+  ...)
+
 (def secretary-dispatcher
-  (secretary/uri-dispatcher [secretary-defroute-home secretary-defroute-user]))
+  (secretary/uri-dispatcher [secretary-defroute-home
+                             secretary-defroute-user]))
 ```
 
 this is used by accountant to let secretary handle the new window location.
