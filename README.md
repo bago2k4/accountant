@@ -34,15 +34,15 @@ When you configure secretary 2 you create a url dispatcher like this:
   (:require [secretary.core :as secretary :refer-macros [defroute]]
             [accountant.core :as accountant]))
 
-(defroute secretary-defroute-home "/" {:as params}
+(defroute home-route "/" {:as params}
   ...)
 
-(defroute secretary-defroute-user "/user" {:as params}
+(defroute user-route "/user" {:as params}
   ...)
 
 (def secretary-dispatcher
-  (secretary/uri-dispatcher [secretary-defroute-home
-                             secretary-defroute-user]))
+  (secretary/uri-dispatcher [home-route
+                             user-route]))
 ```
 
 this is used by accountant to let secretary handle the new window location.
@@ -51,8 +51,8 @@ Also, to let accountant check for the handled routes, you need a list of all the
 
 ```clojure
 (def routes-stack [
-  "/"       ; route used in secretary-defroute-home
-  "/user"   ; route used in secretary-defroute-user
+  "/"       ; route used in home-route
+  "/user"   ; route used in user-route
 ])
 ```
 
